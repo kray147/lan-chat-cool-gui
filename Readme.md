@@ -1,6 +1,7 @@
 # Chat Application
 
 This is a simple chat application built with Flask and Socket.IO, allowing users to communicate in real-time via a web interface.
+Most of the python coding is not made by me but by hjyssg. I just modified the GUI to make it look better.
 
 <img src="screenshot/01.png" alt="screenshot-01" width="600"/>
 
