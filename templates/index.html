@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat App</title>
+    <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="static/style.css"> 
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
+
+</head>
+<body>
+    <img src="static/tf.png" alt="Logo" class="logo">
+    <div class="lc-chat-box">
+        <div id="messages"></div>
+        <div class="lc-input-container">
+            <input id="sender" class="lc-sender" placeholder="Your name">
+            <textarea id="message" class="lc-message" placeholder="Type message..."></textarea>
+            <button id="lc-send-button">Send</button>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+            $('#lc-send-button').click(function(){
+                var sender = $('#sender').val();
+                var message = $('#message').val();
+                socket.emit('chat message', {
+                    sender: sender,
+                    message: message
+                });
+                $('#message').val('').focus();
+            });
+
+            socket.on('chat message', function(data){
+                var timestamp = data.timestamp;
+                var sender = data.sender || "unknown";
+                var message = data.message;
+
+                var formattedTime = new Date(timestamp).toLocaleTimeString();
+
+                var messageDiv = $('<div>').addClass('lc-message');
+                var senderDiv = $('<div>').addClass('lc-sender_a').text(sender);
+                var timestampDiv = $('<div>').addClass('lc-timestamp').text(formattedTime);
+                var contentDiv = $('<div>').addClass('lc-message-content').text(message);
+
+                messageDiv.append(senderDiv, timestampDiv, contentDiv);
+                $('#messages').append(messageDiv);
+                window.scrollTo(0, document.body.scrollHeight);
+
+                
+            });
+
+            // Listen for click event on send button
+        $('#lc-send-button').click(function(){
+            sendMessage();
+        });
+
+        // Listen for keypress event on message textarea
+        $('#message').keydown(function(event){
+    if(event.which === 13 && !event.shiftKey){ // Enter key without shift key
+        sendMessage();
+        event.preventDefault(); // Prevent default behavior (line break)
+        }
+        });
+        // Function to send message
+        function sendMessage() {
+            var sender = $('#sender').val();
+            var message = $('#message').val();
+            socket.emit('chat message', {
+                sender: sender,
+                message: message
+            });
+            $('#message').val('').focus();
+        }
+
+        // Autoscroll to the bottom
+        $('#messages').scrollTop($('#messages')[0].scrollHeight);
+        
+        });
+    </script>
+</body>
+</html>
