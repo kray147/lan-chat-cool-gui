@@ -1,3 +1,5 @@
+# This App is solely based on hjyssg lan-chat but I tried to make the UI a bit better. It was a way for me to train in html and python Flask.
+
 # Chat Application
 
 This is a simple chat application built with Flask and Socket.IO, allowing users to communicate in real-time via a web interface.
