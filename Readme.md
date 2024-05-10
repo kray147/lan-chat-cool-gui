@@ -37,7 +37,7 @@ Most of the python coding is not made by me but by hjyssg. I just modified the G
     python app.py
     ```
 
-2. Open a web browser and go to `http://localhost:8010/` to access the application.
+2. Open a web browser and go to `http://localhost:2000/` to access the application.
 
 ## Features
 
